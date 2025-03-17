@@ -1,16 +1,15 @@
 package main;
 
 import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
-   
         ChampionshipManager manager = ChampionshipManager.getInstance();
 
-   
         Driver driver1 = new Driver("Sébastien Ogier", "France", new GravelCar("Toyota", "Yaris", 279, 20));
         Driver driver2 = new Driver("Kalle Rovanperä", "Finland", new AsphaltCar("Hyundai", "i20", 247, 50));
-        Driver driver3 = new Driver("Ott Tänak", "Estonia", new GravelCar("Ford", "Fiesta", 370, 18));
-        Driver driver4 = new Driver("Thierry Neuville", "Belgium", new AsphaltCar("Citroën", "C3", 390, 55));
+        Driver driver3 = new Driver("Ott Tänak", "Estonia", new GravelCar("Ford", "Fiesta", 279, 18));
+        Driver driver4 = new Driver("Thierry Neuville", "Belgium", new AsphaltCar("Citroën", "C3", 247, 55));
 
         manager.registerDriver(driver1);
         manager.registerDriver(driver2);
@@ -31,14 +30,20 @@ public class Main {
         race2.recordResult(driver3, 4, 12);
         manager.addRaceResult(race2);
 
-        System.out.println("===== CHAMPIONSHIP LEADER =====");
+    
+
+        List<Driver> standings = manager.getStandings();
+        int rank = 1;
+        for (Driver driver : standings) {
+            System.out.println(rank + ". " + driver.getName() + " (" + driver.getCountry() + "): " + driver.getPoints() + " points");
+            rank++;
+        }
+
+       
+        System.out.println("\n===== CHAMPIONSHIP LEADER =====");
         System.out.println(manager.getLeadingDriver().getName() + " with " + manager.getLeadingDriver().getPoints() + " points");
 
-        System.out.println("===== CHAMPIONSHIP STATISTICS =====");
-        System.out.println("Total Drivers: " + ChampionshipManager.getTotalDrivers());
-        System.out.println("Total Races: " + ChampionshipManager.getTotalRaces());
-
-    
+       
         System.out.println("\n===== RACE RESULTS =====");
         printRaceResults(race1);
         printRaceResults(race2);
@@ -48,7 +53,6 @@ public class Main {
         System.out.println("Gravel Car Performance: " + driver1.getCar().calculatePerformance());
         System.out.println("Asphalt Car Performance: " + driver2.getCar().calculatePerformance());
     }
-
 
     private static void printRaceResults(RallyRaceResult race) {
         System.out.println("Race: " + race.getRaceName() + " (" + race.getLocation() + ")");
@@ -60,3 +64,6 @@ public class Main {
         }
     }
 }
+
+
+
